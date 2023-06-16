@@ -1,0 +1,68 @@
+:root{
+    --primary: #2384E8;
+    --primary-light: #6FA8FF;
+    --secondary: #6BB13D;
+    --secondary-light: #9EDB70;
+    --accent: #FFA500;
+    --neutral: #333333;
+}
+
+html{
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    background-color: var(--primary-light);
+}
+
+a:hover{
+    opacity: 0.8;
+}
+
+.error{
+    color: red;
+    background-color: var(--neutral);
+}
+
+form{
+    
+    border-radius: 0.5rem;
+    border: 2px solid var(--accent);
+    padding: 1rem;
+    
+    h2{
+        display: flex;
+        justify-content: center;
+        padding: 0rem 1rem;
+        text-decoration: underline;
+    }
+
+    div{
+        display: flex;
+        justify-content: center;
+        padding: 0.5rem 1rem;
+    }
+
+    label{
+        display: inline-flex;
+        flex-direction: row;
+        width: 6rem; 
+    }
+
+    select{
+        width: 10rem;
+        overflow:auto;
+    }
+    
+    .buttons{
+        display: flex;
+        justify-content: space-evenly;
+    }
+    
+    button{
+        border-radius: 0.5rem;
+        padding:0.5rem
+    }
+
+    .error{
+        padding: 0.25rem;
+        width:fit-content
+    }
+}

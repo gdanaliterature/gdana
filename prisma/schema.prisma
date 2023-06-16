@@ -1,0 +1,54 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:gdana.db"
+}
+
+model literature {
+  id       Int    @id @default(autoincrement())
+  title    String @unique
+  price    Float
+  category String
+  quantity Int
+  cover    Bytes?
+  orders  order_item[]
+}
+
+model meeting {
+  id   Int    @id @default(autoincrement())
+  name String
+  day  Int
+  time String
+  orders order[]
+}
+
+model order {
+  id  Int @id @default(autoincrement())
+  open  Boolean
+  name  String
+  phone  String
+  order_date  DateTime
+  meeting meeting @relation(fields: [meetingId], references: [id])
+  meetingId Int
+  items order_item[]
+}
+
+model order_item {
+  id  Int @id @default(autoincrement())
+  order order @relation(fields: [orderId], references: [id])
+  orderId Int
+  item literature @relation(fields: [itemId], references: [id])
+  itemId Int
+  quantity  Int
+}
+
+model admin {
+  id  Int @id @default(autoincrement())
+  username  String  @unique
+  hash  String
+  salt  String
+  sessionId String?
+}
