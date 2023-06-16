@@ -1,7 +1,6 @@
 import { prisma } from "$lib/server/db";
 import type { order, order_item } from "@prisma/client";
 import type { Actions, ServerLoad } from "@sveltejs/kit";
-import { get } from "https";
 
 export const load: ServerLoad = async ()=>{
     let meetings = await prisma.meeting.findMany({});

@@ -56,10 +56,11 @@
         return total;
     }
 
-    const alreadySelected = (itemId: number, bookId: number)=> {
-        let item = orderItems.find(item => item.id == bookId);
+    const alreadySelected = (itemIdx: number, bookId: number)=> {
+        let item = orderItems.find(it => it.id == bookId);
+        let itemIndex = orderItems.findIndex(it => it.id == bookId)
 
-        return item && !(item.id==itemId);
+        return item && itemIndex !== itemIdx;
     }
 
 </script>
@@ -100,7 +101,7 @@
                 <select on:change={(ev)=>handleSelectChange(ev, itemIter)} bind:value={orderItems[itemIter].id} name={'item' + itemIter} id={'item' + itemIter} required>
                     <option value="" disabled selected>Select Item</option>
                     {#each data.books as book}
-                        {#if !alreadySelected(itemIter+1, book.id) }
+                        {#if !alreadySelected(itemIter, book.id) }
                             <option id={'item' + itemIter + 'opt' + book.id} value={book.id}>
                                 {book.title}
                             </option>

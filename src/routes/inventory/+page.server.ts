@@ -52,13 +52,42 @@ export const actions: Actions = {
     complete: async ({request})=> {
         let data = await request.formData();
 
-        await prisma.order.update({
+        const orderNum = Number(data.get('order')?.toString()??'0');
+
+        let order = await prisma.order.update({
             where: {
-                id: Number(data.get('order')?.toString() || '0')
+                id: orderNum
             },
             data: {
                 open: false
+            }, 
+            select:{
+                id: true
             }
         });
+
+        let items = await prisma.order_item.findMany({
+            where: {
+                orderId: orderNum
+            }
+        });
+
+        for( let i=0; i<items.length; i++){
+            let book = await prisma.literature.findFirst({
+                where: {
+                    id: items[i].itemId
+                }
+            });
+            console.log('books', book?.quantity, 'of ', book?.title, ' minus ', items[i].quantity);
+            
+            await prisma.literature.update({
+                where: {
+                    id: items[i].itemId
+                },
+                data: {
+                    quantity: book!.quantity - items[i].quantity
+                }
+            });
+        }
     }
 }
