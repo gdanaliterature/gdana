@@ -1,5 +1,5 @@
 <script lang="ts">
-    export let loggedIn: Boolean = false;
+    export let loggedIn: boolean = false;
 </script>
 <nav>
     <a href="/order">Order</a>

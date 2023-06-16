@@ -12,7 +12,7 @@ export const load = async ({cookies, params})=> {
     });
 
     if(sessionId.length && admin && params){
-        throw redirect(302, '/');
+        throw redirect(302, '/inventory');
     }
 }
 
@@ -101,6 +101,6 @@ export const actions: Actions = {
             expires: new Date(Date.now()+ (1000*60*60*24))
         });
 
-        throw redirect(302, '/');
+        throw redirect(302, '/inventory');
     }
 }

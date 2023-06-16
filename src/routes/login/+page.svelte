@@ -9,6 +9,7 @@
     <h2>
         Login
     </h2>
+    <p>For area use only</p>
     <div>
         <label for="username">
             Username:
@@ -35,3 +36,12 @@
         </div>
     {/if}
 </form>
+
+<style>
+    p{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 0.7rem;
+    }
+</style>
