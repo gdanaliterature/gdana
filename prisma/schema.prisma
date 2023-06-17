@@ -8,47 +8,47 @@ datasource db {
 }
 
 model literature {
-  id       Int    @id @default(autoincrement())
-  title    String @unique
+  id       Int          @id @default(autoincrement())
+  title    String       @unique
   price    Float
   category String
   quantity Int
   cover    Bytes?
-  orders  order_item[]
+  orders   order_item[]
 }
 
 model meeting {
-  id   Int    @id @default(autoincrement())
-  name String
-  day  Int
-  time String
+  id     Int     @id @default(autoincrement())
+  name   String
+  day    Int
+  time   String
   orders order[]
 }
 
 model order {
-  id  Int @id @default(autoincrement())
-  open  Boolean
-  name  String
-  phone  String
-  order_date  DateTime
-  meeting meeting @relation(fields: [meetingId], references: [id])
-  meetingId Int
-  items order_item[]
+  id         Int          @id @default(autoincrement())
+  open       Boolean
+  name       String
+  phone      String
+  order_date DateTime
+  meetingId  Int
+  meeting    meeting      @relation(fields: [meetingId], references: [id])
+  items      order_item[]
 }
 
 model order_item {
-  id  Int @id @default(autoincrement())
-  order order @relation(fields: [orderId], references: [id])
-  orderId Int
-  item literature @relation(fields: [itemId], references: [id])
-  itemId Int
-  quantity  Int
+  id       Int        @id @default(autoincrement())
+  orderId  Int
+  itemId   Int
+  quantity Int
+  item     literature @relation(fields: [itemId], references: [id])
+  order    order      @relation(fields: [orderId], references: [id])
 }
 
 model admin {
-  id  Int @id @default(autoincrement())
+  id        Int     @id @default(autoincrement())
   username  String  @unique
-  hash  String
-  salt  String
+  hash      String
+  salt      String
   sessionId String?
 }
