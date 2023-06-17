@@ -52,5 +52,5 @@ jobs:
         with:
           app-name: 'gdanaliterature'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_73D2E33C28964078B5949E201F850C44 }}
-          package: .
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_DD4B1AD13868449C96FB1F534CAE544D }}
+          package: ./
