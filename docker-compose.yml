@@ -1,0 +1,11 @@
+version: '1'
+
+services: 
+  app-node: 
+    image: gdanaliterature
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: deploy-node
+    ports:
+      - 3000:3000
