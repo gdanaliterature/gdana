@@ -3,6 +3,10 @@
 
 name: Build and deploy container app to Azure Web App - gdanaliterature
 
+env:
+  AZURE_WEBAPP_NAME: gdanaliterature
+  DOCKER_IMAGE_NAME: calebgarrick/gdanaliterature
+
 on:
   push:
     branches:
@@ -29,7 +33,7 @@ jobs:
       uses: docker/build-push-action@v4
       with:
         push: true
-        tags: calebgarrick/gdanaliterature:${{ github.sha }}
+        tags: ${{ env.DOCKER_IMAGE_NAME }}:${{ github.sha }}
         file: ./Dockerfile
         
   deploy:
@@ -40,10 +44,11 @@ jobs:
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
+    
     - name: Deploy to Azure Web App
       id: deploy-to-webapp
       uses: azure/webapps-deploy@v2
       with:
-        app-name: 'gdanaliterature'
+        app-name: '${{ env.AZURE_WEBAPP_NAME }}'
         slot-name: 'production'
-        images: 'calebgarrick/gdanaliterature:${{ github.sha }}'
+        images: '${{ env.DOCKER_IMAGE_NAME }}:${{ github.sha }}'
