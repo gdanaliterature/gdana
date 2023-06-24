@@ -30,7 +30,7 @@ jobs:
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: index.docker.io/${{ secrets.AzureAppService_ContainerUsername_5cd81bb7b857407ebe7b4a69f3276f6b }}/calebgarrick/gdanaliterature:${{ github.sha }}
+        tags: index.docker.io/calebgarrick/gdanaliterature:${{ github.sha }}
         file: ./Dockerfile
 
   deploy:
@@ -47,5 +47,4 @@ jobs:
       with:
         app-name: 'gdanaliterature'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_3f3540ccede440e48daf60d957d0e027 }}
-        images: 'index.docker.io/${{ secrets.AzureAppService_ContainerUsername_5cd81bb7b857407ebe7b4a69f3276f6b }}/calebgarrick/gdanaliterature:${{ github.sha }}'
+        images: 'index.docker.io/calebgarrick/gdanaliterature:${{ github.sha }}'
