@@ -9,17 +9,10 @@ COPY ./vite.config.ts .
 COPY ./package*.json .
 
 RUN npm install
-RUN npx prisma generate
-RUN npm run build
-
-FROM node:lts-slim as deploy
-
-WORKDIR /app
-RUN rm -rf ./*
-COPY --from=build app/package*.json .
-COPY --from=build app/prisma ./prisma
-COPY --from=build app/build .
-
 RUN apt-get update -y && apt-get install -y openssl
 RUN npx prisma generate
-CMD [ "node", "index.js" ]
+RUN npm run build
+COPY ./prisma build/prisma
+ENV ORIGIN="http://localhost:3000"
+CMD [ "node", "build/index.js" ]
+
