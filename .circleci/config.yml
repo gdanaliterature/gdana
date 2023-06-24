@@ -1,0 +1,15 @@
+# This config was automatically generated from your source code
+# Stacks detected: deps:node:.
+version: 2.1
+orbs:
+  node: circleci/node@5
+jobs:
+  deploy:
+    # This is an example deploy job, not actually used by the workflow
+    docker:
+      - image: calebgarrick/gdanaliterature:latest
+    steps:
+      # Replace this with steps to deploy to users
+      - run:
+          name: docker
+          command: 'docker compose up'
