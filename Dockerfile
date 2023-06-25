@@ -4,9 +4,9 @@ WORKDIR /app
 
 COPY ./src ./src
 COPY ./prisma ./prisma
-COPY ./svelte.config.js .
-COPY ./vite.config.ts .
-COPY ./package*.json .
+COPY ./svelte.config.js ./
+COPY ./vite.config.ts ./
+COPY ./package*.json ./
 
 RUN npm install
 RUN apt-get update -y && apt-get install -y openssl
