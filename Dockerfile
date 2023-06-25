@@ -13,6 +13,6 @@ RUN apt-get update -y && apt-get install -y openssl
 RUN npx prisma generate
 RUN npm run build
 COPY ./prisma build/prisma
-ENV ORIGIN="http://localhost:3000"
+
 CMD [ "node", "build/index.js" ]
 
