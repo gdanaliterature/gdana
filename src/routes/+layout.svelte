@@ -7,7 +7,7 @@
 
 <div id="main-container">
     <a href='/' class="home">
-    <img src={logo} alt="NA logo">
+    <img id="logo" src={logo} alt="NA logo">
     <h1>
             Greater Danbury Area Literature
         </h1>
@@ -31,5 +31,9 @@
 
     .home{
         color: black;
+    }
+
+    #logo{
+        border-radius: 4rem;
     }
 </style>

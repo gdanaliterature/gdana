@@ -46,34 +46,36 @@
 {#if data.orders.length}
     <div id="orders">
         <!-- svelte-ignore a11y-click-events-have-key-events -->
-        <h2><u style="cursor: pointer" on:click={()=> { showOpenOrders = !showOpenOrders}}>Open Orders</u></h2>
-        {#if showOpenOrders}
-            {#each data.orders as order}
-            <form class="order" method="POST">
-                <div>
-                    Order #{order.id} - 
-                    <span class="meetingName" title={getMeeting(order.meetingId)?.name} >
-                        {getMeeting(order.meetingId)?.name} 
-                    </span>
-                    - ${getOrderTotal(getOrderItems(order.id)).toFixed(2)}
-                </div>
-                {#if data.admin}
+        <form class="order" method="POST">
+            <div class="collapse" on:click={()=> { showOpenOrders = !showOpenOrders}}>
+                <h2><u>Open Orders</u></h2>
+            </div>
+            {#if showOpenOrders}
+                {#each data.orders as order}
                     <div>
-                        {order.name} - {order.phone}
+                        Order #{order.id} - 
+                        <span class="meetingName" title={getMeeting(order.meetingId)?.name} >
+                            {getMeeting(order.meetingId)?.name} 
+                        </span>
+                        - ${getOrderTotal(getOrderItems(order.id)).toFixed(2)}
                     </div>
-                {/if}
-                <ul>
-                    {#each getOrderItems(order.id) as item}
-                    <li>{item.quantity} x {getBook(item.itemId)?.title}</li>
-                    {/each}
-                </ul>
-                <input type="hidden" name={'order'} id={"order"+order.id} value={order.id}>
-                {#if data.admin}
-                    <button formaction="?/complete">Complete Order</button>
-                {/if}
-            </form>
-            {/each}
-        {/if}
+                    {#if data.admin}
+                        <div>
+                            {order.name} - {order.phone}
+                        </div>
+                    {/if}
+                    <ul>
+                        {#each getOrderItems(order.id) as item}
+                        <li>{item.quantity} x {getBook(item.itemId)?.title}</li>
+                        {/each}
+                    </ul>
+                    <input type="hidden" name={'order'} id={"order"+order.id} value={order.id}>
+                    {#if data.admin}
+                        <button formaction="?/complete">Complete Order</button>
+                    {/if}
+                {/each}
+            {/if}
+        </form>
     </div>
 {/if}
     <h2>Inventory</h2>
@@ -113,7 +115,10 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-        padding: 0rem 1rem;
+
+        form{
+            padding: 1rem;
+        }
 
         .order{
             border: 2px solid var(--accent);
@@ -141,6 +146,14 @@
     h2{
         display: flex;
         justify-content: center;
+    }
+
+    .collapse{
+        cursor: pointer;
+        width: 100%;
+        &:hover{
+            background-color: rgba(0,0,0,0.1);
+        }
     }
 
     .cols{
