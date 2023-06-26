@@ -78,8 +78,8 @@
         </form>
     </div>
 {/if}
-    <h2>Inventory</h2>
     <form id="inventory" method="POST">
+        <h2>Inventory</h2>
         <div class="cols">
             {#each categories as cat}
                 <div class="category">
@@ -111,14 +111,14 @@
     </form>
 
 <style lang='scss'>
+
+    form{
+        margin: 1rem 0rem;
+    }
     #orders{
         display: flex;
         flex-direction: column;
         justify-content: center;
-
-        form{
-            padding: 1rem;
-        }
 
         .order{
             border: 2px solid var(--accent);
