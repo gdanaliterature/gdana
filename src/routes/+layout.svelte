@@ -1,15 +1,17 @@
 <script>
     import '../app.scss';
     import Header from "$lib/components/Header.svelte";
-  import { page } from '$app/stores';
+    import logo from '$lib/static/logo.jpg';
+    import { page } from '$app/stores';
 </script>
 
 <div id="main-container">
+    <a href='/' class="home">
+    <img src={logo} alt="NA logo">
     <h1>
-        <a href='/' class="home">
             Greater Danbury Area Literature
-        </a>
-    </h1>
+        </h1>
+    </a>
     <Header bind:loggedIn={$page.data.admin}></Header>
     <div id="main-content">
         <slot></slot>
