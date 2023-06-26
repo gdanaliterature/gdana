@@ -29,7 +29,6 @@
     };
 
     const handleSelectChange = (event: Event, index: number)=> {
-        console.log(orderItems);
         let book = data.books.find(book=> book.id == orderItems[index].id);
         if(book && book.quantity < 10){
             bookMax[index] = book.quantity;

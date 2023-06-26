@@ -36,15 +36,16 @@ export const load: ServerLoad = async ()=>{
 
 export const actions: Actions = {
     update: async ({ request })=> {
-        let data = await request.formData();
+        let form = await request.formData();
 
-        for(let i=1; data.get('quantity'+i); i++){
+        for(let i=0; form.get('item'+i); i++){
+            let itemId = form.get('item'+i);
             await prisma.literature.update({
                 where: {
-                    id: i
+                    id: Number(itemId)
                 },
                 data: {
-                    quantity: Number(data.get('quantity'+i)?.toString() || '0')
+                    quantity: Number(form.get('quantity'+i)?.toString() || '0')
                 }
             })
         }
@@ -78,7 +79,6 @@ export const actions: Actions = {
                     id: items[i].itemId
                 }
             });
-            console.log('books', book?.quantity, 'of ', book?.title, ' minus ', items[i].quantity);
             
             await prisma.literature.update({
                 where: {

@@ -31,6 +31,16 @@
         });
         return total;
     }
+
+    const categories: string[] = [
+		'Book',
+		'Booklet',
+		'Small Booklet',
+		'Pamphlet',
+		'Keytag',
+		'Medallion',
+		'Service Product'
+	];
 </script>
 
 {#if data.orders.length}
@@ -47,6 +57,11 @@
                     </span>
                     - ${getOrderTotal(getOrderItems(order.id)).toFixed(2)}
                 </div>
+                {#if data.admin}
+                    <div>
+                        {order.name} - {order.phone}
+                    </div>
+                {/if}
                 <ul>
                     {#each getOrderItems(order.id) as item}
                     <li>{item.quantity} x {getBook(item.itemId)?.title}</li>
@@ -63,21 +78,33 @@
 {/if}
     <h2>Inventory</h2>
     <form id="inventory" method="POST">
-        {#each data.literature as item}
-            <div>
-                {#if data.admin}
-                    <input type='number' min=0 name={'quantity'+item.id} class="quantity" value={item.quantity}>
-                {:else}
-                    {item.quantity}
-                {/if}
-                <p>x</p>
-                {item.title}
-            </div>
-        {/each}
-        {#if data.admin}
-        <div class="buttons">
-            <button formaction="?/update">Update Inventory</button>
+        <div class="cols">
+            {#each categories as cat}
+                <div class="category">
+                    <div>
+                        <h3>{cat}</h3>
+                    </div>
+                    <br>
+
+                    {#each data.literature.filter(lit=>lit.category == cat) as item, itemIter}
+                        <div>
+                            {#if data.admin}
+                                <input type="hidden" name={'item'+itemIter} id={'item'+itemIter} value={item.id}>
+                                <input type='number' min=0 id={'quantity'+itemIter} name={'quantity'+itemIter} class="quantity" value={item.quantity} required>
+                            {:else}
+                                {item.quantity}
+                            {/if}
+                            <p>x</p>
+                            {item.title}
+                        </div>
+                    {/each}
+                </div>
+            {/each}
         </div>
+        {#if data.admin}
+            <div class="buttons">
+                <button formaction="?/update">Update Inventory</button>
+            </div>
         {/if}
     </form>
 
@@ -116,15 +143,20 @@
         justify-content: center;
     }
 
-    #inventory{
+    .cols{
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
-        div{
+        justify-content: flex-start;
+        .category{
             display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            flex: 1 1 20rem;
+            flex-direction: column;
+            flex-basis: 1rem;
+            align-self: flex-start;
+            align-items: flex-start;
+        }
+        h3{
+            width: max-content;
         }
         p{
             display: flex;

@@ -2,7 +2,7 @@
 import { prisma } from "$lib/server/db";
 import { redirect } from "@sveltejs/kit";
 
-export const load = async ({cookies, params})=> {
+export const load = async ({cookies})=> {
     let sessionId = cookies.get('sessionId');
 
     if(sessionId?.length){
@@ -28,5 +28,7 @@ export const load = async ({cookies, params})=> {
     }
 
     cookies.delete('sessionId');
-    throw redirect(302, '/');
+    return {
+        admin: false
+    }
 }

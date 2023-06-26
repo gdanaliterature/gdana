@@ -1,13 +1,16 @@
 <script lang="ts">
+    import {page} from '$app/stores';
+    
     export let loggedIn: boolean = false;
 </script>
 <nav>
-    <a href="/order">Order</a>
-    <a href="/inventory">Inventory</a>
+    <a aria-current={$page.url.pathname==='/order'} href="/order">Order</a>
+    <a aria-current={$page.url.pathname==='/inventory'} href="/inventory">Inventory</a>
     {#if !loggedIn}
-        <a href="/login">Login</a>
+        <a aria-current={$page.url.pathname==='/login'} href="/login">Login</a>
     {:else}
         <a href="/logout">Logout</a>
+        <a aria-current={$page.url.pathname==='/manage'} href="/manage">Manage</a>
     {/if}
 </nav>
 
@@ -30,6 +33,10 @@
         &:last-of-type{
             border-top-right-radius: 0.5rem;
             border-bottom-right-radius: 0.5rem;
+        }
+        &[aria-current]:not([aria-current="false"]){
+            text-decoration: underline;
+            border-color: var(--neutral);
         }
     }
 </style>

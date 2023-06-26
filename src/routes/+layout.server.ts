@@ -17,8 +17,11 @@ export const load: LayoutServerLoad = async ({cookies})=> {
         });
         
         if(admin?.sessionId?.localeCompare(sessionId) == 0){
-            return { admin };
+            return { admin: true };
+        } else {
+            return { admin: false };
         }
+        
     } else {
         return{
             admin: false

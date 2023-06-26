@@ -1,11 +1,11 @@
 generator client {
   provider = "prisma-client-js"
-  binaryTargets   = ["linux-arm64-openssl-1.1.x", "linux-arm64-openssl-3.0.x", "debian-openssl-1.1.x", "debian-openssl-3.0.x" ]
+  binaryTargets   = ["native"]
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:gdana.db"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model literature {
@@ -14,7 +14,6 @@ model literature {
   price    Float
   category String
   quantity Int
-  cover    Bytes?
   orders   order_item[]
 }
 
