@@ -23,7 +23,7 @@
     a{
         padding: 1rem;;
         background-image: linear-gradient(45deg, var(--primary), var(--primary-light));
-        border: 1px solid var(--accent);
+        border: 2px solid var(--accent);
         text-decoration: none;
         color: var(--neutral-dark);
         &:first-of-type{
@@ -36,7 +36,7 @@
         }
         &[aria-current]:not([aria-current="false"]){
             text-decoration: underline;
-            border-color: var(--secondary);
+            border-color: var(--secondary-light);
         }
     }
 </style>
