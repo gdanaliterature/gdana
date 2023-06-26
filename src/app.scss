@@ -4,6 +4,7 @@
     --secondary: #6BB13D;
     --secondary-light: #9EDB70;
     --accent: #FFA500;
+    --accent-light: #EEAA44;
     --neutral: #333333;
 }
 
@@ -27,6 +28,7 @@ form{
     
     border-radius: 0.5rem;
     border: 2px solid var(--accent);
+    background-color: var(--accent-light);
     padding: 1rem;
     
     h2{
