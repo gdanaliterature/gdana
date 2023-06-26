@@ -7,12 +7,12 @@ COPY ./prisma ./prisma
 COPY ./svelte.config.js ./
 COPY ./vite.config.ts ./
 COPY ./package*.json ./
-COPY ./static ./static
 
 RUN npm install
 RUN apt-get update -y && apt-get install -y openssl
 RUN npx prisma generate
 RUN npm run build
+COPY ./static ./build
 COPY ./prisma build/prisma
 
 CMD [ "node", "build/index.js" ]
