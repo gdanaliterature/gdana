@@ -30,7 +30,7 @@
     }
 
     .home{
-        color: black;
+        color: var(--accent);
         display: inline-flex;
         align-items: center;
         border-radius: 4rem;;

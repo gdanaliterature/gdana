@@ -1,16 +1,17 @@
 :root{
-    --primary: #2384E8;
-    --primary-light: #6FA8FF;
-    --secondary: #6BB13D;
-    --secondary-light: #9EDB70;
-    --accent: #FFA500;
-    --accent-light: #EEAA44;
+    --primary: #2288EE;
+    --primary-light: #66AAFF;
+    --secondary: #bbaa11;
+    --secondary-light: #FFDD00;
+    --accent: white;
     --neutral: #333333;
+    --neutral-dark: black;
 }
 
 html{
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    background-color: var(--primary-light);
+    background-color: var(--neutral);
+    color: var(--accent);
 }
 
 a:hover{
@@ -27,8 +28,7 @@ a:hover{
 form{
     
     border-radius: 0.5rem;
-    border: 2px solid var(--accent);
-    background-color: var(--accent-light);
+    border: 2px solid var(--secondary-light);
     padding: 1rem;
     
     h2{
@@ -70,7 +70,7 @@ form{
         border-radius: 1rem;
         height: 2rem;
         width: 2rem;
-        background-color: var(--accent);
+        background-color: var(--secondary-light);
     }
 
     .error{

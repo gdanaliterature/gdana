@@ -121,7 +121,7 @@
         justify-content: center;
 
         .order{
-            border: 2px solid var(--accent);
+            border: 2px solid var(--secondary-light);
             border-radius: 0.5rem;
             margin: 0.25rem;
             padding: 1rem;

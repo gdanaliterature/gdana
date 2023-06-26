@@ -22,10 +22,10 @@
     }
     a{
         padding: 1rem;;
-        background-image: linear-gradient(45deg, var(--secondary), var(--secondary-light));
+        background-image: linear-gradient(45deg, var(--primary), var(--primary-light));
         border: 1px solid var(--accent);
         text-decoration: none;
-        color: black;
+        color: var(--neutral-dark);
         &:first-of-type{
             border-top-left-radius: 0.5rem;
             border-bottom-left-radius: 0.5rem;
@@ -36,7 +36,7 @@
         }
         &[aria-current]:not([aria-current="false"]){
             text-decoration: underline;
-            border-color: var(--neutral);
+            border-color: var(--secondary);
         }
     }
 </style>
