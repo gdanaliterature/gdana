@@ -7,6 +7,7 @@ COPY ./prisma ./prisma
 COPY ./svelte.config.js ./
 COPY ./vite.config.ts ./
 COPY ./package*.json ./
+COPY ./static ./static
 
 RUN npm install
 RUN apt-get update -y && apt-get install -y openssl
