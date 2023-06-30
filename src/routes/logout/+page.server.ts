@@ -1,6 +1,5 @@
 
 import { prisma } from "$lib/server/db";
-import { redirect } from "@sveltejs/kit";
 
 export const load = async ({cookies})=> {
     let sessionId = cookies.get('sessionId');

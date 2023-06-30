@@ -1,9 +1,8 @@
 <script lang="ts">
   import type { literature } from '@prisma/client';
-    import type { ActionData, PageData } from './$types.js';
 
-    export let data: PageData;
-    export let form: ActionData;
+    export let data;
+    export let form;
 
     const days: string[] = [
         'Sunday',

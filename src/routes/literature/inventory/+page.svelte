@@ -1,8 +1,7 @@
 <script lang="ts">
     import type { order_item } from "@prisma/client";
-    import type { PageData } from "./$types";
 
-    export let data: PageData;
+    export let data;
 
     let showOpenOrders: boolean = true;
 
@@ -121,7 +120,6 @@
         justify-content: center;
 
         .order{
-            border: 2px solid var(--secondary-light);
             border-radius: 0.5rem;
             margin: 0.25rem;
             padding: 1rem;

@@ -9,7 +9,7 @@
     <a href='/' class="home">
         <img id="logo" src={logo} alt="NA logo">
         <h1>
-            Greater Danbury Area Literature
+            Greater Danbury Area
         </h1>
     </a>
     <Header bind:loggedIn={$page.data.admin}></Header>

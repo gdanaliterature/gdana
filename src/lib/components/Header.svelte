@@ -4,13 +4,13 @@
     export let loggedIn: boolean = false;
 </script>
 <nav>
-    <a aria-current={$page.url.pathname==='/order'} href="/order">Order</a>
-    <a aria-current={$page.url.pathname==='/inventory'} href="/inventory">Inventory</a>
+    <a aria-current={$page.url.pathname==='/literature/order'} href="/literature/order">Order</a>
+    <a aria-current={$page.url.pathname==='/literature/inventory'} href="/literature/inventory">Inventory</a>
     {#if !loggedIn}
         <a aria-current={$page.url.pathname==='/login'} href="/login">Login</a>
     {:else}
-        <a href="/logout">Logout</a>
         <a aria-current={$page.url.pathname==='/manage'} href="/manage">Manage</a>
+        <a href="/logout">Logout</a>
     {/if}
 </nav>
 
@@ -36,7 +36,7 @@
         }
         &[aria-current]:not([aria-current="false"]){
             text-decoration: underline;
-            border-color: var(--secondary-light);
+            background-image: linear-gradient(45deg, var(--secondary), var(--secondary-light));
         }
     }
 </style>

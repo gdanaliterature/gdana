@@ -6,7 +6,7 @@ export const load = async ({parent})=> {
     const data = await parent();
 
     if(!data.admin){
-        throw redirect(302, '/order');
+        throw redirect(302, '/literature/order');
     }
 
     const meetings = await prisma.meeting.findMany({});

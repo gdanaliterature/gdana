@@ -14,7 +14,12 @@ html{
     color: var(--accent);
 }
 
-a:hover{
+button{
+    background-color: var(--accent);
+}
+
+a:hover, button:hover{
+    cursor: pointer;
     opacity: 0.8;
 }
 
@@ -28,7 +33,7 @@ a:hover{
 form{
     
     border-radius: 0.5rem;
-    border: 2px solid var(--secondary-light);
+    border: 2px solid var(--accent);
     padding: 1rem;
     
     h2{
@@ -70,7 +75,7 @@ form{
         border-radius: 1rem;
         height: 2rem;
         width: 2rem;
-        background-color: var(--secondary-light);
+        background-color: red;
     }
 
     .error{

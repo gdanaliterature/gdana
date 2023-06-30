@@ -2,6 +2,6 @@
     export let data;
 
     if(!data.admin){
-        window.location.href = '/order';
+        window.location.href = '/literature/order';
     }
 </script>
