@@ -29,6 +29,9 @@
         <!-- <button formaction="?/register">
             Register
         </button> -->
+        <!-- <button formaction="?/update">
+            Update
+        </button> -->
     </div>
     {#if form?.invalid }
         <div class="error">

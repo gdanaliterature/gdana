@@ -51,27 +51,29 @@
             </div>
             {#if showOpenOrders}
                 {#each data.orders as order}
-                    <div>
-                        Order #{order.id} - 
-                        <span class="meetingName" title={getMeeting(order.meetingId)?.name} >
-                            {getMeeting(order.meetingId)?.name} 
-                        </span>
-                        - ${getOrderTotal(getOrderItems(order.id)).toFixed(2)}
-                    </div>
-                    {#if data.admin}
+                    <div class="order-entry">
                         <div>
-                            {order.name} - {order.phone}
+                            Order #{order.id} - 
+                            <span class="meetingName" title={getMeeting(order.meetingId)?.name} >
+                                {getMeeting(order.meetingId)?.name} 
+                            </span>
+                            - ${getOrderTotal(getOrderItems(order.id)).toFixed(2)}
                         </div>
-                    {/if}
-                    <ul>
-                        {#each getOrderItems(order.id) as item}
-                        <li>{item.quantity} x {getBook(item.itemId)?.title}</li>
-                        {/each}
-                    </ul>
-                    <input type="hidden" name={'order'} id={"order"+order.id} value={order.id}>
-                    {#if data.admin}
-                        <button formaction="?/complete">Complete Order</button>
-                    {/if}
+                        {#if data.admin}
+                            <div>
+                                {order.name} - {order.phone}
+                            </div>
+                        {/if}
+                        <ul>
+                            {#each getOrderItems(order.id) as item}
+                            <li>{item.quantity} x {getBook(item.itemId)?.title}</li>
+                            {/each}
+                        </ul>
+                        <input type="hidden" name={'order'} id={"order"+order.id} value={order.id}>
+                        {#if data.admin}
+                            <button formaction="?/complete">Complete Order</button>
+                        {/if}
+                    </div>
                 {/each}
             {/if}
         </form>
@@ -79,16 +81,14 @@
 {/if}
     <form id="inventory" method="POST">
         <h2>Inventory</h2>
-        <div class="cols">
+        <div class="literature">
             {#each categories as cat}
+                <div>
+                    <h3>{cat}</h3>
+                </div>
                 <div class="category">
-                    <div>
-                        <h3>{cat}</h3>
-                    </div>
-                    <br>
-
                     {#each data.literature.filter(lit=>lit.category == cat) as item, itemIter}
-                        <div>
+                        <div class='cat-item'>
                             {#if data.admin}
                                 <input type="hidden" name={'item'+itemIter} id={'item'+itemIter} value={item.id}>
                                 <input type='number' min=0 id={'quantity'+itemIter} name={'quantity'+itemIter} class="quantity" value={item.quantity} required>
@@ -120,23 +120,25 @@
         justify-content: center;
 
         .order{
-            border-radius: 0.5rem;
             margin: 0.25rem;
             padding: 1rem;
-            display: flex;
-            flex-direction: column;
+            .order-entry{
+                display: flex;
+                flex-direction: column;
 
-            @media only screen and (max-width: 480px) {
-                .meetingName{
-                display: inline-flex; 
-                max-width: 8rem; 
-                overflow-x: hidden; 
-                text-wrap: nowrap;
-            }
-                
-            }
-            @media only screen and (min-width: 600px) {
-                align-items: center;
+
+                @media only screen and (max-width: 480px) {
+                    .meetingName{
+                    display: inline-flex; 
+                    max-width: 8rem; 
+                    overflow-x: hidden; 
+                    text-wrap: nowrap;
+                }
+                    
+                }
+                @media only screen and (min-width: 600px) {
+                    align-items: center;
+                }
             }
         }
 
@@ -154,17 +156,25 @@
         }
     }
 
-    .cols{
+    .literature{
         display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: flex-start;
+        flex-direction: column;
         .category{
+            width: 100%;
             display: flex;
-            flex-direction: column;
-            flex-basis: 1rem;
+            flex-direction: row;
+            flex-wrap: wrap;
             align-self: flex-start;
             align-items: flex-start;
+            @media only screen and (max-width: 800px){
+                flex-direction: column;
+            }
+            @media only screen and (min-width: 800px){
+                .cat-item{
+                    flex-basis: 40%;
+                    justify-content: flex-start;
+                }
+            }
         }
         h3{
             width: max-content;

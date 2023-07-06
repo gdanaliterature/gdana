@@ -7,6 +7,9 @@ export const load: ServerLoad = async ()=>{
             open: {
                 equals: true
             }
+        },
+        orderBy: {
+            id: 'asc'
         }
     });
 
@@ -24,8 +27,16 @@ export const load: ServerLoad = async ()=>{
         }
     })
 
-    let literature = await prisma.literature.findMany({});
-    let meetings = await prisma.meeting.findMany({});
+    let literature = await prisma.literature.findMany({
+        orderBy: {
+            id: 'asc'
+        }
+    });
+    let meetings = await prisma.meeting.findMany({
+        orderBy: {
+            day: 'asc'
+        }
+    });
     return {
         orders,
         order_items,

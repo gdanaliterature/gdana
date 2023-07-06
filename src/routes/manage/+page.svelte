@@ -53,6 +53,14 @@
 
 	let showMeetings = false;
 	let showLiterature = true;
+
+	const meetingMarkDirty = (iter: number)=> {
+		document.getElementById("meeting"+iter+"dirty")?.setAttribute("value", "true")
+	}
+	
+	const literatureMarkDirty = (iter: number)=> {
+		document.getElementById("literature"+iter+"dirty")?.setAttribute("value", "true")
+	}
 </script>
 <div class="formContainer">
 	<form method="POST" action="?/updateMeetings">
@@ -65,6 +73,7 @@
 			<div class="meetingList">
 				{#each meetings as meeting, meetingIter}
 					<div class="meeting">
+						<input type="hidden" id={"meeting"+meetingIter+"dirty"} name={"meeting"+meetingIter+"dirty"} value="false">
 						<input type="hidden" id={"meeting"+meetingIter} name={"meeting"+meetingIter} value={meeting.id?? ''}/>
 						<div>
 							<button class="x-btn" type="button" on:click={()=>{
@@ -82,13 +91,13 @@
 							<label for={"meeting"+meetingIter+"name"}>
 								Name: 
 							</label>
-							<input type="text" id={"meeting"+meetingIter+"name"} name={"meeting"+meetingIter+"name"} value={meeting.name?? ''} required>
+							<input on:change={()=>meetingMarkDirty(meetingIter)} type="text" id={"meeting"+meetingIter+"name"} name={"meeting"+meetingIter+"name"} value={meeting.name?? ''} required>
 						</div>
 						<div>
 							<label for={"meeting"+meetingIter+"day"}>
 								Day: 
 							</label>
-							<select id={"meeting"+meetingIter+"day"} name={"meeting"+meetingIter+"day"} value={meeting.day} required>
+							<select on:change={()=>meetingMarkDirty(meetingIter)} id={"meeting"+meetingIter+"day"} name={"meeting"+meetingIter+"day"} value={meeting.day} required>
 								{#each daysOfTheWeek as day, dayIter}
 									<option value={dayIter}>{day}</option>
 								{/each}
@@ -98,7 +107,7 @@
 							<label for={"meeting"+meetingIter+"time"}>
 								Time: 
 							</label>
-							<select id={"meeting"+meetingIter+"hour"} name={"meeting"+meetingIter+"hour"} required>
+							<select on:change={()=>meetingMarkDirty(meetingIter)} id={"meeting"+meetingIter+"hour"} name={"meeting"+meetingIter+"hour"} required>
 								{#each hours as time}
 									<option 
 										selected={ time == meeting.time?.substring(0,2) } 
@@ -106,7 +115,7 @@
 								{/each}
 							</select>
 							:
-							<select id={"meeting"+meetingIter+"minute"} name={"meeting"+meetingIter+"minute"} required>
+							<select on:change={()=>meetingMarkDirty(meetingIter)} id={"meeting"+meetingIter+"minute"} name={"meeting"+meetingIter+"minute"} required>
 								{#each minutes as time}
 									<option 
 										selected={ time == meeting.time?.substring(3,5) } 
@@ -115,7 +124,7 @@
 										</option>
 								{/each}
 							</select>
-							<select id={"meeting"+meetingIter+"meridian"} name={"meeting"+meetingIter+"meridian"}>
+							<select on:change={()=>meetingMarkDirty(meetingIter)} id={"meeting"+meetingIter+"meridian"} name={"meeting"+meetingIter+"meridian"}>
 								<option selected={'AM' == meeting.time?.substring(5)} value="AM">AM</option>
 								<option selected={'PM' == meeting.time?.substring(5)} value="PM">PM</option>
 							</select>
@@ -142,6 +151,7 @@
 				<input type="hidden" name="deleteLiterature" id='deleteLiterature'>
 				{#each literature as literature, litIter}
 					<div class="litItem">
+						<input type="hidden" id={"literature"+litIter+"dirty"} name={"literature"+litIter+"dirty"} value="false"/>
 						<input type="hidden" id={"literature"+litIter} name={"literature"+litIter} value={literature.id?? ''}/>
 						<div>
 							<button class="x-btn" type="button" on:click={()=>{
@@ -159,19 +169,19 @@
 							<label for={"literature"+litIter+"title"}>
 								Title: 
 							</label>
-							<input type="text" id={"literature"+litIter+"title"} name={"literature"+litIter+"title"} value={literature.title?? ''} required>
+							<input type="text" on:change={()=>literatureMarkDirty(litIter)} id={"literature"+litIter+"title"} name={"literature"+litIter+"title"} value={literature.title?? ''} required>
 						</div>
 						<div>
 							<label for={"literature"+litIter+"price"}>
 								Price: 
 							</label>
-							<input type="number" min=0 id={"literature"+litIter+"price"} step=0.01 name={"literature"+litIter+"price"} value={literature.price?? ''} required>
+							<input type="number" on:change={()=>literatureMarkDirty(litIter)} min=0 id={"literature"+litIter+"price"} step=0.01 name={"literature"+litIter+"price"} value={literature.price?? ''} required>
 						</div>
 						<div>
 							<label for={"literature"+litIter+"category"}>
 								Category: 
 							</label>
-							<select id={"literature"+litIter+"category"} name={"literature"+litIter+"category"} required>
+							<select on:change={()=>literatureMarkDirty(litIter)} id={"literature"+litIter+"category"} name={"literature"+litIter+"category"} required>
 								{#each categories as category}
 									<option selected={literature.category == category} value={category}>{category}</option>
 								{/each}
@@ -181,7 +191,7 @@
 							<label for={"literature"+litIter+"quantity"}>
 								Quantity: 
 							</label>
-							<input type="number" min=0 id={"literature"+litIter+"quantity"} name={"literature"+litIter+"quantity"} value={literature.quantity?? ''} required />
+							<input type="number" on:change={()=>literatureMarkDirty(litIter)} min=0 id={"literature"+litIter+"quantity"} name={"literature"+litIter+"quantity"} value={literature.quantity?? ''} required />
 						</div>
 					</div>
 				{/each}

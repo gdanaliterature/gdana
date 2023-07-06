@@ -9,8 +9,21 @@ export const load = async ({parent})=> {
         throw redirect(302, '/literature/order');
     }
 
-    const meetings = await prisma.meeting.findMany({});
-    const literature = await prisma.literature.findMany({});
+    const meetings = await prisma.meeting.findMany({
+        orderBy: [
+            {
+                day: 'asc'
+            },
+            {
+                time: 'asc'
+            }
+        ]
+    });
+    const literature = await prisma.literature.findMany({
+        orderBy: {
+            id: 'asc'
+        }
+    });
 
     return {
         meetings,
@@ -25,6 +38,12 @@ export const actions = {
         let meetings: Partial<meeting>[] = [];
         for(let meetingIter = 0; form.get('meeting'+meetingIter+"name"); meetingIter++){
             let meetingId = form.get('meeting'+meetingIter)?.toString();
+            let dirty = form.get('meeting'+meetingIter+"dirty")?.toString();
+
+            if(meetingId && dirty=='false'){
+                continue;
+            }
+
             let meetingName = form.get('meeting'+meetingIter+'name')?.toString();
             let meetingDay = form.get('meeting'+meetingIter+'day')?.toString();
             let meetingHour = form.get('meeting'+meetingIter+'hour')?.toString();
@@ -86,6 +105,12 @@ export const actions = {
         let literature: Partial<literature>[] = [];
         for(let litIter = 0; form.get('literature'+litIter+"title"); litIter++){
             let litId = form.get('literature'+litIter)?.toString();
+            let dirty = form.get('literature'+litIter+"dirty")?.toString();
+
+            if(litId && dirty=='false'){
+                continue;
+            }
+
             let litTitle = form.get('literature'+litIter+'title')?.toString();
             let litPrice = form.get('literature'+litIter+'price')?.toString();
             let litCategory = form.get('literature'+litIter+'category')?.toString();
