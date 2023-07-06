@@ -31,6 +31,11 @@
         return total;
     }
 
+    const completeOrder = (orderNum: number) => {
+        document.getElementById('completedOrder')?.setAttribute('value', data.orders[orderNum].id.toString());
+        document.getElementById('completeOrderBtn')?.click();
+    }
+
     const categories: string[] = [
 		'Book',
 		'Booklet',
@@ -49,11 +54,12 @@
             <div class="collapse" on:click={()=> { showOpenOrders = !showOpenOrders}}>
                 <h2><u>Open Orders</u></h2>
             </div>
+            <input type="hidden" name={'completedOrder'} id={"completedOrder"}>
             {#if showOpenOrders}
-                {#each data.orders as order}
+                {#each data.orders as order, orderIter}
                     <div class="order-entry">
                         <div>
-                            Order #{order.id} - 
+                            Order #{orderIter + 1} - 
                             <span class="meetingName" title={getMeeting(order.meetingId)?.name} >
                                 {getMeeting(order.meetingId)?.name} 
                             </span>
@@ -66,16 +72,16 @@
                         {/if}
                         <ul>
                             {#each getOrderItems(order.id) as item}
-                            <li>{item.quantity} x {getBook(item.itemId)?.title}</li>
+                                <li>{item.quantity} x {getBook(item.itemId)?.title}</li>
                             {/each}
                         </ul>
-                        <input type="hidden" name={'order'} id={"order"+order.id} value={order.id}>
                         {#if data.admin}
-                            <button formaction="?/complete">Complete Order</button>
-                        {/if}
-                    </div>
-                {/each}
-            {/if}
+                            <button type="button" on:click={()=>completeOrder(orderIter)}>Complete Order</button>
+                            {/if}
+                        </div>
+                    {/each}
+                {/if}
+            <button style="display:none;" formaction="?/complete" id="completeOrderBtn"></button>
         </form>
     </div>
 {/if}

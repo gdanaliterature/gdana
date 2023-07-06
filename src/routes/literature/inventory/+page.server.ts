@@ -1,5 +1,5 @@
 import { prisma } from "$lib/server/db";
-import type { Actions, ServerLoad } from "@sveltejs/kit";
+import { error, type Actions, type ServerLoad } from "@sveltejs/kit";
 
 export const load: ServerLoad = async ()=>{
     let orders = await prisma.order.findMany({
@@ -64,11 +64,15 @@ export const actions: Actions = {
     complete: async ({request})=> {
         let data = await request.formData();
 
-        const orderNum = Number(data.get('order')?.toString()??'0');
+        let completedOrder = Number(data.get('completedOrder')?.toString());
+
+        if(!(completedOrder>=0)){
+            throw error(400);
+        }
 
         let order = await prisma.order.update({
             where: {
-                id: orderNum
+                id: completedOrder
             },
             data: {
                 open: false
@@ -80,7 +84,7 @@ export const actions: Actions = {
 
         let items = await prisma.order_item.findMany({
             where: {
-                orderId: orderNum
+                orderId: completedOrder
             }
         });
 
