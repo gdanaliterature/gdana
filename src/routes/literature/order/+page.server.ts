@@ -3,8 +3,18 @@ import type { order, order_item } from "@prisma/client";
 import type { Actions, ServerLoad } from "@sveltejs/kit";
 
 export const load: ServerLoad = async ()=>{
-    let meetings = await prisma.meeting.findMany({});
-    let books = await prisma.literature.findMany({});
+    let meetings = await prisma.meeting.findMany({
+        orderBy: [
+            {day: 'asc'},
+            {time: 'asc'}
+        ]
+    });
+    let books = await prisma.literature.findMany({
+        orderBy: [
+            {category: 'asc'},
+            {title: 'asc'}
+        ]
+    });
 
     return {
         meetings, books

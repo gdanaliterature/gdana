@@ -28,14 +28,16 @@ export const load: ServerLoad = async ()=>{
     })
 
     let literature = await prisma.literature.findMany({
-        orderBy: {
-            id: 'asc'
-        }
+        orderBy: [
+            {category: 'asc'},
+            {title: 'asc'}
+        ]
     });
     let meetings = await prisma.meeting.findMany({
-        orderBy: {
-            day: 'asc'
-        }
+        orderBy: [
+            {day: 'asc'},
+            {time: 'asc'}
+        ]
     });
     return {
         orders,
