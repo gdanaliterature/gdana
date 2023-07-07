@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { literature } from '@prisma/client';
+    import type { literature } from '@prisma/client';
 
     export let data;
     export let form;
@@ -46,7 +46,39 @@
         return book!;
     }
 
-    const getOrderTotal = ()=> {
+    const updateLineTotal= (itemNum: number)=> {
+        const quantity = orderItems[itemNum].quantity;
+        const itemId = orderItems[itemNum].id;
+        let priceField = document.getElementById('item'+itemNum+'Price');
+
+        if(!itemId || quantity === undefined){
+            priceField!.innerText = '$?.??';
+            return
+        }
+        
+        const price = getBook(itemId).price;
+
+        priceField!.innerText = '$'+(quantity*price).toFixed(2);
+
+        updateWorkingOrderTotal();
+    }
+
+    const updateWorkingOrderTotal = ()=> {
+        let total = 0;
+        orderItems.forEach(item => {
+            if(item.id === undefined || item.quantity === undefined){
+                return;
+            }
+            const itemPrice = getBook(item.id).price;
+            const quantity = item.quantity;
+            total += (itemPrice*quantity)
+        })
+
+        let totalField = document.getElementById('orderTotal');
+        totalField!.innerText = total.toFixed(2);
+    }
+
+    const getSubmittedOrderTotal = ()=> {
         let total = 0.0;
         form?.items?.forEach(item => {
             total += getBook(item.itemId)!.price * item.quantity;
@@ -94,9 +126,9 @@
             <div>
                 <button class="x-btn" type="button" id={'delete'+itemIter} on:click={()=>deleteItem(itemIter)}>X</button>
                 <label for={'item' + itemIter}>Item {itemIter+1}:</label>
-                <input type="number" min=1 max=10 bind:value={orderItems[itemIter].quantity} name={'quantity' + itemIter} id={'quantity' + itemIter} required>
+                <input type="number" min=1 max=10 bind:value={orderItems[itemIter].quantity} on:change={()=>updateLineTotal(itemIter)} name={'quantity' + itemIter} id={'quantity' + itemIter} required>
                 <p>x</p>
-                <select on:change={(ev)=>handleSelectChange(ev, itemIter)} bind:value={orderItems[itemIter].id} name={'item' + itemIter} id={'item' + itemIter} required>
+                <select on:change={(ev)=>handleSelectChange(ev, itemIter)} bind:value={orderItems[itemIter].id} on:change={()=>updateLineTotal(itemIter)} name={'item' + itemIter} id={'item' + itemIter} required>
                     <option value="" disabled selected>Select Item</option>
                     {#each data.books as book}
                         {#if !alreadySelected(itemIter, book.id) }
@@ -111,8 +143,14 @@
                         Left in stock: {bookMax[itemIter]}
                     </p>
                 {/if}
+                <span class="price" id={"item"+itemIter+"Price"}></span>
             </div>
         {/each}
+        {#if orderItems.length}
+            <div>
+                Total: $<span id="orderTotal"></span>
+            </div>
+        {/if}
         
         <div class="buttons">
             <button type="button" on:click={()=>addItem()}>+ Add Item</button>
@@ -126,7 +164,7 @@
             {/each}
         </div>
         <h3>
-            Total: ${getOrderTotal().toFixed(2)}
+            Total: ${getSubmittedOrderTotal().toFixed(2)}
         </h3>
     {/if}
 </form>
@@ -150,5 +188,8 @@
 
     .receipt{
         flex-direction: column;
+    }
+    .price{
+        margin-left: 1rem;
     }
 </style>
