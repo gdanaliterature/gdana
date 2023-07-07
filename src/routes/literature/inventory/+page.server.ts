@@ -61,13 +61,34 @@ export const actions: Actions = {
             })
         }
     },
+    cancel: async ({request})=> {
+        let data = await request.formData();
+
+        let canceledOrder = Number(data.get('canceledOrder')?.toString());
+
+        if(!(canceledOrder>=0)){
+            throw error(400, {message: 'cancelled order id not set'});
+        }
+
+        await prisma.order_item.deleteMany({
+            where: {
+                orderId: canceledOrder
+            }
+        })
+
+        await prisma.order.delete({
+            where: {
+                id: canceledOrder
+            }
+        })
+    },
     complete: async ({request})=> {
         let data = await request.formData();
 
         let completedOrder = Number(data.get('completedOrder')?.toString());
 
         if(!(completedOrder>=0)){
-            throw error(400);
+            throw error(400, {message: 'completed order id not set'});
         }
 
         let order = await prisma.order.update({

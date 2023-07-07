@@ -36,6 +36,11 @@
         document.getElementById('completeOrderBtn')?.click();
     }
 
+    const cancelOrder = (orderNum: number) => {
+        document.getElementById('canceledOrder')?.setAttribute('value', data.orders[orderNum].id.toString());
+        document.getElementById('cancelOrderBtn')?.click();
+    }
+
     const categories: string[] = [
 		'Book',
 		'Booklet',
@@ -54,7 +59,8 @@
             <div class="collapse" on:click={()=> { showOpenOrders = !showOpenOrders}}>
                 <h2><u>Open Orders</u></h2>
             </div>
-            <input type="hidden" name={'completedOrder'} id={"completedOrder"}>
+            <input type="hidden" name='completedOrder' id="completedOrder">
+            <input type="hidden" name='canceledOrder' id="canceledOrder">
             {#if showOpenOrders}
                 {#each data.orders as order, orderIter}
                     <div class="order-entry">
@@ -75,13 +81,17 @@
                                 <li>{item.quantity} x {getBook(item.itemId)?.title}</li>
                             {/each}
                         </ul>
-                        {#if data.admin}
-                            <button type="button" on:click={()=>completeOrder(orderIter)}>Complete Order</button>
+                            {#if data.admin}
+                                <div>
+                                    <button type="button" on:click={()=>completeOrder(orderIter)}>Complete</button>
+                                    <button type="button" on:click={()=>cancelOrder(orderIter)}>Cancel</button>
+                                </div>
                             {/if}
                         </div>
                     {/each}
                 {/if}
             <button style="display:none;" formaction="?/complete" id="completeOrderBtn"></button>
+            <button style="display:none;" formaction="?/cancel" id="cancelOrderBtn"></button>
         </form>
     </div>
 {/if}
