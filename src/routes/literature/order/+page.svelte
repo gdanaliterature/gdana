@@ -104,7 +104,7 @@
         </div>
         <div>
             <label for="phone">Phone:</label>
-            <input type="tel" id="phone" name="phone" title="format: 203 123 4567 OR 203-123-4567" pattern="^\d&#123;3&#125(\s|-)\d&#123;3&#125(-|\s)\d&#123;4&#125$" placeholder="203 123 4567" required>
+            <input type="tel" id="phone" name="phone" title="format: 2031234567" pattern="^\d&#123;10&#125$" placeholder="2031234567" required>
         </div>
         <div>
             <label for="meeting">Meeting:</label>
