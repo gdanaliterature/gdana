@@ -57,30 +57,34 @@
         <!-- svelte-ignore a11y-click-events-have-key-events -->
         <form class="order" method="POST">
             <div class="collapse" on:click={()=> { showOpenOrders = !showOpenOrders}}>
-                <h2><u>Open Orders</u></h2>
+                <h1><u>Open Orders</u></h1>
             </div>
             <input type="hidden" name='completedOrder' id="completedOrder">
             <input type="hidden" name='canceledOrder' id="canceledOrder">
             {#if showOpenOrders}
                 {#each data.orders as order, orderIter}
+                    {#if orderIter>0}
+                    <hr>
+                    {/if}
                     <div class="order-entry">
                         <div>
-                            Order #{orderIter + 1} - 
                             <span class="meetingName" title={getMeeting(order.meetingId)?.name} >
                                 {getMeeting(order.meetingId)?.name} 
                             </span>
-                            - ${getOrderTotal(getOrderItems(order.id)).toFixed(2)}
+                            &nbsp- ${getOrderTotal(getOrderItems(order.id)).toFixed(2)}
                         </div>
                         {#if data.admin}
                             <div>
                                 {order.name} - {order.phone}
                             </div>
                         {/if}
-                        <ul>
-                            {#each getOrderItems(order.id) as item}
-                                <li>{item.quantity} x {getBook(item.itemId)?.title}</li>
-                            {/each}
-                        </ul>
+                        <div>
+                            <ul>
+                                {#each getOrderItems(order.id) as item}
+                                    <li>{item.quantity} x {getBook(item.itemId)?.title}</li>
+                                {/each}
+                            </ul>
+                        </div>
                             {#if data.admin}
                                 <div>
                                     <button type="button" on:click={()=>completeOrder(orderIter)}>Complete</button>
@@ -96,26 +100,31 @@
     </div>
 {/if}
     <form id="inventory" method="POST">
-        <h2>Inventory</h2>
+        <h1>Inventory</h1>
         <div class="literature">
-            {#each categories as cat}
-                <div>
-                    <h3>{cat}</h3>
-                </div>
-                <div class="category">
-                    {#each data.literature.filter(lit=>lit.category == cat) as item, itemIter}
-                        <div class='cat-item'>
-                            {#if data.admin}
-                                <input type="hidden" name={'item'+itemIter} id={'item'+itemIter} value={item.id}>
-                                <input type='number' min=0 id={'quantity'+itemIter} name={'quantity'+itemIter} class="quantity" value={item.quantity} required>
-                            {:else}
-                                {item.quantity}
-                            {/if}
-                            <p>x</p>
-                            {item.title}
-                        </div>
-                    {/each}
-                </div>
+            {#each categories as cat, catIter}
+                {#if data.literature.filter(lit=>lit.category == cat).length}
+                    {#if catIter>0}
+                    <hr>
+                    {/if}
+                    <div>
+                        <h3>{cat}</h3>
+                    </div>
+                    <div class="category">
+                        {#each data.literature.filter(lit=>lit.category == cat) as item, itemIter}
+                            <div class='cat-item'>
+                                {#if data.admin}
+                                    <input type="hidden" name={'item'+itemIter} id={'item'+itemIter} value={item.id}>
+                                    <input type='number' min=0 id={'quantity'+itemIter} name={'quantity'+itemIter} class="quantity" value={item.quantity} required>
+                                {:else}
+                                    {item.quantity}
+                                {/if}
+                                <p>x</p>
+                                {item.title}
+                            </div>
+                        {/each}
+                    </div>
+                {/if}
             {/each}
         </div>
         {#if data.admin}
@@ -159,7 +168,7 @@
         }
 
     }
-    h2{
+    h1{
         display: flex;
         justify-content: center;
     }

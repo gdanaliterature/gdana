@@ -11,10 +11,8 @@
         on:mouseleave={()=>showLiteratureDD=false}
     >
         <a aria-current={$page.url.pathname.indexOf('literature')>=0} href="/literature/">Literature</a>
-        {#if showLiteratureDD}
-            <a aria-current={$page.url.pathname==='/literature/order'} href="/literature/order">Order</a>
-            <a aria-current={$page.url.pathname==='/literature/inventory'} href="/literature/inventory">Inventory</a>
-        {/if}
+            <a class="subnav {!showLiteratureDD? 'hidden': ''}" aria-current={$page.url.pathname==='/literature/order'} href="/literature/order">Order</a>
+            <a class="subnav {!showLiteratureDD? 'hidden': ''}" aria-current={$page.url.pathname==='/literature/inventory'} href="/literature/inventory">Inventory</a>
     </span>
     {#if !loggedIn}
         <span>
@@ -59,5 +57,10 @@
                 background-image: linear-gradient(45deg, var(--secondary), var(--secondary-light));
             }
         }
+
+        .subnav.hidden{
+            visibility: hidden;
+        }
+
     }
 </style>

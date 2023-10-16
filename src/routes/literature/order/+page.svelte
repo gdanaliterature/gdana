@@ -23,8 +23,9 @@
             {}
         ];
         bookMax = [
-            ...bookMax, 10
-        ]
+            ...bookMax, 100
+        ];
+        console.log(orderItems);
     };
 
     const handleSelectChange = (event: Event, index: number)=> {
@@ -96,56 +97,82 @@
 </script>
 
 <form method="POST">
-    <h2>Literature Order</h2>
+    <h1>Literature Order</h1>
     {#if !form?.order && !form?.items}
         <div>
-            <label for="name">Name:</label>
-            <input type="text" name="name" id="name" placeholder="John S" required>
-        </div>
-        <div>
-            <label for="phone">Phone:</label>
-            <input type="tel" id="phone" name="phone" title="format: 2031234567" pattern="^\d&#123;10&#125;$" placeholder="2031234567" required>
-        </div>
-        <div>
-            <label for="meeting">Meeting:</label>
-            <select name="meeting" id="meeting" required>
-                <option value="" selected disabled>Select Meeting</option>
-                {#each data.meetings as meeting}
-                    <option value={meeting.id}>
-                        {days[meeting.day]}: {meeting.name}
-                    </option>
-                {/each}
-            </select>
-        </div>
-        <div class="buttons">
-            <button formaction="?/begin">Next</button>
+            <table>
+                <tr>
+                    <td class="orderLabel">Name:</td>
+                    <td>
+                        <input type="text" name="name" id="name" placeholder="John S" required>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="orderLabel">Phone:</td>
+                    <td>
+                        <input type="tel" id="phone" name="phone" title="format: 2031234567" pattern="^\d&#123;10&#125;$" placeholder="2031234567" required>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="orderLabel">Meeting:</td>
+                    <td>
+                        <select name="meeting" id="meeting" required>
+                            <option value="" selected disabled>Select Meeting</option>
+                            {#each data.meetings as meeting}
+                                <option value={meeting.id}>
+                                    {days[meeting.day]}: {meeting.name}
+                                </option>
+                            {/each}
+                            <option value="-1">Personal Order</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: center;">
+                        <button formaction="?/begin">Next</button>
+                    </td>
+                </tr>
+            </table>
         </div>
     {:else if !form?.items}
+    <div>
         <input type="hidden" name="order" value={JSON.stringify(form.order)}>
-        {#each orderItems as item, itemIter}
-            <div>
-                <button class="x-btn" type="button" id={'delete'+itemIter} on:click={()=>deleteItem(itemIter)}>X</button>
-                <label for={'item' + itemIter}>Item {itemIter+1}:</label>
-                <input type="number" min=1 max=10 bind:value={orderItems[itemIter].quantity} on:change={()=>updateLineTotal(itemIter)} name={'quantity' + itemIter} id={'quantity' + itemIter} required>
-                <p>x</p>
-                <select on:change={(ev)=>handleSelectChange(ev, itemIter)} bind:value={orderItems[itemIter].id} on:change={()=>updateLineTotal(itemIter)} name={'item' + itemIter} id={'item' + itemIter} required>
-                    <option value="" disabled selected>Select Item</option>
-                    {#each data.books as book}
-                        {#if !alreadySelected(itemIter, book.id) }
-                            <option id={'item' + itemIter + 'opt' + book.id} value={book.id}>
-                                {book.title}
-                            </option>
-                        {/if}
-                    {/each}
-                </select>
-                {#if bookMax[itemIter] < 10 }
-                    <p class="error">
+        <table>
+            {#each orderItems as item, itemIter}
+                <tr>
+                    <td>
+                        <button class="x-btn" type="button" id={'delete'+itemIter} on:click={()=>deleteItem(itemIter)}>X</button>
+                    </td>
+                    <td>
+                        <input type="number" min=1 max=10 bind:value={orderItems[itemIter].quantity} on:change={()=>updateLineTotal(itemIter)} name={'quantity' + itemIter} id={'quantity' + itemIter} required>
+                    </td>
+                    <td>
+                        x
+                    </td>
+                    <td>
+                        <select on:change={(ev)=>handleSelectChange(ev, itemIter)} bind:value={orderItems[itemIter].id} on:change={()=>updateLineTotal(itemIter)} name={'item' + itemIter} id={'item' + itemIter} required>
+                            <option value="" disabled selected>Select Item</option>
+                            {#each data.books as book}
+                                {#if !alreadySelected(itemIter, book.id) }
+                                    <option id={'item' + itemIter + 'opt' + book.id} value={book.id}>
+                                        {book.title}
+                                    </option>
+                                {/if}
+                            {/each}
+                        </select>
+                    </td>
+                    {#if bookMax[itemIter] < 10 }
+                    <td class="error">
                         Left in stock: {bookMax[itemIter]}
-                    </p>
-                {/if}
-                <span class="price" id={"item"+itemIter+"Price"}></span>
-            </div>
-        {/each}
+                    </td>
+                    {/if}
+                    <td>
+                        <span class="price" id={"item"+itemIter+"Price"}></span>
+                    </td>
+                </tr>
+            {/each}
+        </table>
+    </div>
         {#if orderItems.length}
             <div>
                 Total: $<span id="orderTotal"></span>
@@ -153,7 +180,9 @@
         {/if}
         
         <div class="buttons">
-            <button type="button" on:click={()=>addItem()}>+ Add Item</button>
+            {#if orderItems.length < data.books.length}
+                <button type="button" on:click={()=>addItem()}>+ Add Item</button>
+            {/if}
             <button disabled={!orderItems || orderItems.length==0} formaction="?/submit">Submit Order</button>
         </div>
     {:else}
@@ -191,5 +220,9 @@
     }
     .price{
         margin-left: 1rem;
+    }
+
+    .orderLabel{
+        width: 5rem;
     }
 </style>
