@@ -11,3 +11,18 @@ services:
       - 80:3000
     environment:
       - ORIGIN=http://localhost:80
+    env_file:
+      - .env
+  db:
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    ports:
+      - '5432:5432'
+    volumes: 
+      - db:/var/lib/postgresql/data
+volumes:
+  db:
+    driver: local
