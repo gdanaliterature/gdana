@@ -11,7 +11,7 @@
 
 To start an instance of the website:
 
-- et your database username and password in the docker-compose.yml
+- Set your database username and password in the docker-compose.yml
 - Create the .env file( see the .env.example)
 - Set the database host as `db`( this allows the docker website to connect to the database )
 - Start the website and database using docker compose up
