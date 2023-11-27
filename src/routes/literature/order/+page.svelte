@@ -144,7 +144,7 @@
                         <button class="x-btn" type="button" id={'delete'+itemIter} on:click={()=>deleteItem(itemIter)}>X</button>
                     </td>
                     <td>
-                        <input type="number" min=1 max=10 bind:value={orderItems[itemIter].quantity} on:change={()=>updateLineTotal(itemIter)} name={'quantity' + itemIter} id={'quantity' + itemIter} required>
+                        <input type="number" min=1 bind:value={orderItems[itemIter].quantity} on:change={()=>updateLineTotal(itemIter)} name={'quantity' + itemIter} id={'quantity' + itemIter} required>
                     </td>
                     <td>
                         x
@@ -201,9 +201,6 @@
 <style>
     input[type=number]{
         width: 2rem;
-    }
-    p{
-        margin: 0 0.25rem;
     }
 
     .x-btn{
