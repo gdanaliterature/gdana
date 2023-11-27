@@ -23,4 +23,4 @@ To start an instance of the website:
 - At this point we are done with the local website
 - You can now login on `localhost`(:80) use the manage and inventory pages to add meetings, literature, and adjust the inventory as needed
 
-Note: `npx prisma studio` can be used to get a GUI of the database contents, but the host in the .env must be `localhost`
+Note: `npx prisma studio` can be used to get a GUI of the database contents, but the host in the .env must be `localhost`. Alternatively Docker Desktop has an extension PGAdmin that should work as well.
